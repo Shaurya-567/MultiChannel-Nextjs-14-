@@ -14,6 +14,8 @@ STRIPE_WEBHOOK_SECRET=
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+<a href="https://youtube.com/playlist?list=PLuHGmgpyHfRzhGkSUfY0vpi67X64g0mXB"  target="_blank">Go to Checkout our list </a>
+
 ## Getting Started
 
 First, run the development server:
