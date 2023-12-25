@@ -16,11 +16,12 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormMessage } 
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { MailCheck } from 'lucide-react';
 import { FormSchema } from '@/lib/types';
+import { actionSignUpUser } from '@/lib/server-actions/auth-actions';
 const SignUpFromSchema =z.object({
     email:z.string().describe("Email").email({message:"Invalid Email Id"}),
     password:z.string().describe("Password").min(6,'Password must be minimum 6 characters'),
     confirmPassword:z.string().describe("Confirm Password").min(6,'Password must be minimum 6 characters:'),
-    fullName:z.string().describe("Full Name")
+    fullName:z.string().describe("Full Name").min(6,'Full Name must be minimum 6 characters'),
 }).refine((data)=>{
     data.password === data.confirmPassword,{
         message:"Password don't match",
@@ -45,7 +46,7 @@ const SignUp = () => {
             'border-red-500/50':codeExchangeError,
             'text-red-700':codeExchangeError
         })
-    },[])
+    },[codeExchangeError])
 
     const form =useForm<z.infer<typeof SignUpFromSchema>>({
         mode:"onChange",
@@ -53,10 +54,13 @@ const SignUp = () => {
         defaultValues:{email:'', password:'',confirmPassword:"",fullName:""}
     });
     const onSubmit =async({fullName ,email,password}:z.infer<typeof FormSchema>)=>{
-
-    }
-    const signUpHandler =()=>{
-
+        const {error} =await actionSignUpUser({email,password,fullName});
+        if(error){
+            setSubmitError(error.message);
+            form.reset();
+            return;
+        }
+        setConfirmation(true);
     }
     const isLoading =form.formState.isSubmitting;
   return (
@@ -145,8 +149,8 @@ const SignUp = () => {
                 Already have an account ? {' '}<Link href={"/login"} className='text-primary'>Login</Link>
             </span>
             {(confirmation || codeExchangeError) && <>
-            <Alert className={confirmationAndErrorStyles}>
-                {!codeExchangeError && <MailCheck eclassName='h-4 w-4' />}
+            {/* <Alert className={confirmationAndErrorStyles}>
+                {!codeExchangeError && <MailCheck className='h-4 w-4' />}
                 <AlertTitle>
                     {
                         codeExchangeError ? "Invalid Link":"Check your email."
@@ -155,7 +159,8 @@ const SignUp = () => {
                 <AlertDescription>
                     {codeExchangeError || 'An email confirmation has been sent'}
                 </AlertDescription>
-            </Alert>
+            </Alert> */}
+            <MailCheck className='h-4 w-4' />
             </>}
         </form>
       </Form>
