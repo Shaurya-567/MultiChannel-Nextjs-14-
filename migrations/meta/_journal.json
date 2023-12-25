@@ -1,0 +1,20 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1703137011746,
+      "tag": "0000_watery_smiling_tiger",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1703138009722,
+      "tag": "0001_fluffy_ravenous",
+      "breakpoints": true
+    }
+  ]
+}
